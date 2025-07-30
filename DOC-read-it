@@ -1,0 +1,155 @@
+## 🧠What We Built
+
+We created a **containerized AI-powered Flask application** and deployed it on a **local Kubernetes cluster using Minikube**. This project showcases how DevOps principles like containerization, orchestration, and scalable deployment can be applied to AI applications. The final result is a real-world mini-architecture where an AI app is production-ready with Docker and Kubernetes support.
+
+---
+
+## 🎯Why We Did This Project
+
+1. **To integrate AI with DevOps tools** like Docker and Kubernetes, making it relevant for modern MNC environments.
+2. **To demonstrate your DevOps workflow skills** — containerizing applications, managing deployments, and using services to expose apps.
+3. **To simulate a real-world deployment scenario** you’d see in high-paying companies like Salesforce, Groww, or Postman.
+4. **To prepare for job-ready portfolios** by building projects that go beyond tutorials and show complete development + deployment pipeline.
+
+---
+
+## ⚙️ How We Built It – Step-by-Step Breakdown
+
+### 1. 🛠 Built a Simple AI Flask App
+
+* We created a Python Flask app with a single route (`/`) that returns a message like “🚀 AI mode is alive”.
+* This was saved in `app/app.py`.
+* A `requirements.txt` file was also created to manage dependencies (`flask`).
+
+> 🧠 This is the core of our AI application — the backend logic.
+
+---
+
+### 2. 🐳 Dockerized the Application
+
+* We wrote a `Dockerfile` to containerize the app.
+
+* This file:
+
+  * Used Python 3.9 slim as the base image.
+  * Copied the Flask code into the image.
+  * Installed Flask using `pip install -r requirements.txt`.
+  * Exposed port `5000`.
+  * Started the app using `CMD`.
+
+* Then we built the image with:
+
+  ```bash
+  docker build -t lavanyajc/ai-flask:latest .
+  ```
+
+* And tested it locally using:
+
+  ```bash
+  docker run -p 5000:5000 lavanyajc/ai-flask
+  ```
+
+> ✅ This gave us a clean, reusable, and portable image for deployment.
+
+---
+
+### 3. 📤 Pushed Docker Image to Docker Hub
+
+* We pushed the image to Docker Hub so that Kubernetes can later pull it from anywhere:
+
+  ```bash
+  docker push lavanyajc/ai-flask:latest
+  ```
+
+> 💡 This is necessary for Kubernetes to use the image — it won’t use local Docker unless configured inside Minikube.
+
+---
+
+### 4. ☸️ Created a Kubernetes Deployment
+
+* We wrote a `deployment.yaml` file to:
+
+  * Create **2 replicas** of our Flask app.
+  * Define a **label `app: ai-flask`** to be used by the service.
+  * Specify the container image (`lavanyajc/ai-flask:latest`).
+
+* Applied the deployment:
+
+  ```bash
+  kubectl apply -f deployment.yaml
+  ```
+
+* Verified pods were running:
+
+  ```bash
+  kubectl get pods
+  ```
+
+> 📦 This ensures high availability and self-healing of the app using Kubernetes.
+
+---
+
+### 5. 🌍 Exposed the App with a Kubernetes Service
+
+* We wrote a `service.yaml` file to:
+
+  * Create a **NodePort service** named `ai-flask-service`.
+  * Route traffic from port 30007 on the host to port 5000 inside the container.
+  * Use the label `app: ai-flask` to connect the service with pods.
+
+* Applied the service:
+
+  ```bash
+  kubectl apply -f service.yaml
+  ```
+
+* Accessed the app using:
+
+  ```bash
+  minikube service ai-flask-service
+  ```
+
+> 🖥️ Now the app is accessible from the browser via `localhost:<some-port>` and managed by Kubernetes.
+
+---
+
+### 6. 🔁 Git & GitHub Integration
+
+* We initialized a Git repo and connected it to GitHub:
+
+  ```bash
+  git init
+  git remote add origin https://github.com/Lavanyajc/ai-flask-kubernetes.git
+  git add .
+  git commit -m "Initial commit with Flask app, Docker, and K8s configs"
+  git push -u origin main
+  ```
+
+> 🔗 This gives you a strong GitHub project to showcase to recruiters or hiring managers.
+
+---
+
+## 🏁 Summary
+
+| Step               | Purpose                        |
+| ------------------ | ------------------------------ |
+| **Flask App**      | Create AI backend              |
+| **Dockerfile**     | Containerize app               |
+| **Docker Hub**     | Shareable image                |
+| **K8s Deployment** | Launch replicas                |
+| **K8s Service**    | Make app accessible            |
+| **GitHub Push**    | Share your work professionally |
+
+---
+
+## 📈 Skills Demonstrated
+
+* Docker basics (build, tag, push)
+* Kubernetes fundamentals (deployment, services, labels)
+* YAML configuration
+* GitHub for version control
+* AI + DevOps integration
+* Real-world problem solving with local orchestration (Minikube)
+
+---
+
